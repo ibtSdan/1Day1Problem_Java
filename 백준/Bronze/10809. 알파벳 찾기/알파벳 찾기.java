@@ -1,23 +1,24 @@
 import java.io.*;
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         String line = br.readLine();
-        int[] index = new int[26];
-        Arrays.fill(index, -1);
 
-        for (char c : line.toCharArray()) {
-            int idx = c - 97;
-            if (index[idx] == -1) {
-                index[idx] = line.indexOf(c);
+        int[] data = new int[26];
+        Arrays.fill(data, -1);
+        for (int i = 0; i < line.length(); i++) {
+            int idx = line.charAt(i) - 'a';
+            if (data[idx] == -1) {
+                data[idx] = i;
             }
         }
         for (int i = 0; i < 26; i++) {
-            bw.write(index[i]+" ");
+            bw.write(data[i]+" ");
         }
+        bw.write("\n");
         bw.flush();
     }
 }
