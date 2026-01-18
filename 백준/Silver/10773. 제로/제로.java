@@ -5,19 +5,24 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int n = Integer.parseInt(br.readLine());
-        Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < n; i++) {
-            int num = Integer.parseInt(br.readLine());
-            if (num == 0) {
-                stack.pop();
+
+        int T = Integer.parseInt(br.readLine());
+        Deque<Integer> dq = new ArrayDeque<>();
+        for (int i = 0; i < T; i++) {
+            int n = Integer.parseInt(br.readLine());
+            if (n == 0) {
+                dq.pollLast();
             } else {
-                stack.add(num);
+                dq.addLast(n);
             }
         }
-        int sum = 0;
-        for (int tmp : stack) sum += tmp;
-        bw.write(sum+"\n");
+
+        int ans = 0;
+        int size = dq.size();
+        for (int i = 0; i < size; i++) {
+            ans += dq.pollFirst();
+        }
+        bw.write(ans+"\n");
         bw.flush();
     }
 }
