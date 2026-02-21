@@ -9,13 +9,11 @@ public class Main {
         bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int n = Integer.parseInt(br.readLine());
         ArrayList<Integer>[] A = new ArrayList[n+1];
-        ArrayList<Integer>[] pre = new ArrayList[n+1];
         int[] D = new int[n+1];
         int[] time = new int[n+1];
         int[] ans = new int[n+1];
         for (int i = 1; i <= n; i++) {
             A[i] = new ArrayList<>();
-            pre[i] = new ArrayList<>();
         }
         for (int i = 1; i <= n; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -27,7 +25,6 @@ public class Main {
                 }
                 A[temp].add(i);
                 D[i]++;
-                pre[i].add(temp);
             }
         }
 
@@ -35,24 +32,21 @@ public class Main {
         for (int i = 1; i <= n; i++) {
             if (D[i] == 0) {
                 dq.addLast(i);
-                ans[i] = time[i];
             }
         }
         while (!dq.isEmpty()) {
             int now = dq.pollFirst();
             for (int i : A[now]) {
                 D[i]--;
+                ans[i] = Math.max(ans[i], ans[now]+time[now]);
                 if (D[i] == 0) {
                     dq.addLast(i);
-                    for (int j : pre[i]) {
-                        ans[i] = Math.max(ans[i], ans[j]);
-                    }
-                    ans[i] += time[i];
                 }
             }
         }
 
         for (int i = 1; i <= n; i++) {
+            ans[i] += time[i];
             bw.write(ans[i]+"\n");
         }
         bw.flush();
