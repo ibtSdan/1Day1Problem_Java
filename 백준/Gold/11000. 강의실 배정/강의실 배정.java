@@ -16,18 +16,22 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int n = Integer.parseInt(br.readLine());
-        List<Time> A = new ArrayList<>();
+        PriorityQueue<Time> A = new PriorityQueue<>( (a, b) -> {
+           if (a.start != b.start) {
+               return a.start - b.start;
+           }
+           return a.end - b.end;
+        });
         for (int i = 0; i < n; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            A.add(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
+            Time t = new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+            A.add(t);
         }
-        Collections.sort(A, (a,b) -> a.start - b.start);
 
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-
-        for (Time t : A) {
-            int s = t.start, e = t.end;
-
+        PriorityQueue<Integer> pq = new PriorityQueue();
+        while (!A.isEmpty()) {
+            Time now = A.poll();
+            int s = now.start, e = now.end;
             if (!pq.isEmpty() && pq.peek() <= s) {
                 pq.poll();
             }
