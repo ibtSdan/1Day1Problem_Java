@@ -19,7 +19,7 @@ class Solution {
         }
         if (ans.equals("")) {
             ans = "-1";
-        } else if (ans.compareTo("1") < 0) {
+        } else if (ans.charAt(0) == '0') {
             ans = "0";
         }
         return ans; 
