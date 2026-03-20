@@ -4,24 +4,13 @@ class Solution {
     public String solution(String[] survey, int[] choices) {
         Map<Character, Integer> map = new HashMap<>();
         for (int i = 0; i < survey.length; i++) {
-            if (choices[i] == 4) {
-                continue;
-            }
-            char c = '0';
             if (choices[i] < 4) {
-                c = survey[i].charAt(0);
-            } else {
-                c = survey[i].charAt(1);
-            }
-            if (choices[i] == 1 || choices[i] == 7) {
-                map.put(c, map.getOrDefault(c, 0)+3);
-            } else if (choices[i] == 2 || choices[i] == 6) {
-                map.put(c, map.getOrDefault(c, 0)+2);
-            } else {
-                map.put(c, map.getOrDefault(c, 0)+1);
+                map.put(survey[i].charAt(0), map.getOrDefault(survey[i].charAt(0), 0)+(4-choices[i]));
+            } else if (choices[i] > 4) {
+                map.put(survey[i].charAt(1), map.getOrDefault(survey[i].charAt(1), 0)+(choices[i]-4));
             }
         }
-        System.out.println(map);
+
         String ans = "";
         if (map.getOrDefault('R', 0) >= map.getOrDefault('T', 0)) {
             ans += "R";
