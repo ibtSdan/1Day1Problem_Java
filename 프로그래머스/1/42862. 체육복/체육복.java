@@ -1,36 +1,24 @@
-import java.util.*;
-
 class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
-        Arrays.sort(lost);
-        Arrays.sort(reserve);
-        boolean[] have = new boolean[n+1];
-        Arrays.fill(have, true);
-        ArrayList<Integer> A = new ArrayList<>();
-        
-        for (int i : lost) {
-            have[i] = false;
-            A.add(i);
+        int[] have = new int[n+1];
+        for (int l : lost) {
+            have[l]--;
         }
-        for (int i : reserve) {
-            have[i] = true;
+        for (int r : reserve) {
+            have[r]++;
         }
-        
-        for (int i : reserve) {
-            if (A.contains(i)) {
-                continue;
-            }
-            if (i-1 >= 1 && !have[i-1]) {
-                have[i-1] = true;
-            } else if (i+1 <= n && !have[i+1]) {
-                have[i+1] = true;
-            }
-        }
-        
-        int ans = 0;
+        int ans = n;
         for (int i = 1; i <= n; i++) {
-            if (have[i]) {
-                ans++;
+            if (have[i] == -1) {
+                if (i-1 >= 1 && have[i-1] == 1) {
+                    have[i]++;
+                    have[i-1]--;
+                } else if (i+1 <= n && have[i+1] == 1) {
+                    have[i]++;
+                    have[i+1]--;
+                } else {
+                    ans--;
+                }
             }
         }
         return ans;
