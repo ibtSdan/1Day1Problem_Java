@@ -13,8 +13,8 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
         int v = Integer.parseInt(st.nextToken());
-
         A = new ArrayList[n+1];
+        visited = new boolean[n+1];
         for (int i = 1; i <= n; i++) {
             A[i] = new ArrayList<>();
         }
@@ -28,8 +28,6 @@ public class Main {
         for (int i = 1; i <= n; i++) {
             Collections.sort(A[i]);
         }
-
-        visited = new boolean[n+1];
         DFS(v);
         bw.write("\n");
         visited = new boolean[n+1];
@@ -49,15 +47,15 @@ public class Main {
 
     static void BFS(int v) throws IOException {
         Deque<Integer> dq = new ArrayDeque<>();
+        dq.add(v);
         visited[v] = true;
-        dq.addLast(v);
         while (!dq.isEmpty()) {
-            int now = dq.pollFirst();
+            int now = dq.poll();
             bw.write(now+" ");
             for (int i : A[now]) {
                 if (!visited[i]) {
-                    visited[i] = true;
                     dq.addLast(i);
+                    visited[i] = true;
                 }
             }
         }
