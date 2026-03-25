@@ -3,7 +3,6 @@ import java.util.*;
 
 public class Main {
     static BufferedWriter bw;
-    static ArrayList<int[]> snake;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -29,20 +28,24 @@ public class Main {
         int idx = 0;
         int d = 0;
         int x = 1, y = 1;
-        snake = new ArrayList<>();
+        Deque<int[]> snake = new ArrayDeque<>();
         snake.add(new int[] {1,1});
+        boolean[][] isSnake = new boolean[n+1][n+1];
+        isSnake[1][1] = true;
         while (true) {
             time++;
             int nx = x + dx[d], ny = y + dy[d];
-            if (nx < 1 || nx > n || ny < 1 || ny > n || contains(nx, ny)) {
+            if (nx < 1 || nx > n || ny < 1 || ny > n || isSnake[nx][ny]) {
                 break;
             }
             if (board[nx][ny] == 1) {
                 board[nx][ny] = 0;
             } else {
-                snake.remove(0);
+                int[] i = snake.pollFirst();
+                isSnake[i[0]][i[1]] = false;
             }
             snake.add(new int[] {nx, ny});
+            isSnake[nx][ny] = true;
             x = nx;
             y = ny;
 
@@ -57,14 +60,5 @@ public class Main {
         }
         bw.write(time+"\n");
         bw.flush();
-    }
-
-    static boolean contains(int nx, int ny) {
-        for (int[] i : snake) {
-            if (i[0] == nx && i[1] == ny) {
-                return true;
-            }
-        }
-        return false;
     }
 }
