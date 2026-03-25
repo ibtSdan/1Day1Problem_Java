@@ -15,15 +15,17 @@ public class Main {
             time[i] = Integer.parseInt(st.nextToken());
             pay[i] = Integer.parseInt(st.nextToken());
         }
-        int[] D = new int[n+2];
+
+        int[] d = new int[n+2];
         for (int i = n; i > 0; i--) {
-            if (i + time[i] >= n+2) {
-                D[i] = D[i+1];
+            int consume_time = i + time[i];
+            if (consume_time > n+1) {
+                d[i] = d[i+1];
             } else {
-                D[i] = Math.max(D[i+time[i]] + pay[i], D[i+1]);
+                d[i] = Math.max(d[i+1], pay[i] + d[consume_time]);
             }
         }
-        bw.write(D[1]+"\n");
+        bw.write(d[1]+"\n");
         bw.flush();
     }
 }
